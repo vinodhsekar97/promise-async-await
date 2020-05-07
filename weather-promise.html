@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        rest countries
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+
+    <script>
+        fetch("https://restcountries.eu/rest/v2/all").then(
+            function (n) { return n.json(); }
+        ).then(
+            function (json) {
+                jsondata = json;
+
+                for (var i = 0; i < jsondata.length; i++) {
+                    document.body.insertAdjacentHTML("beforeEnd", `
+                        <div class="container">
+                        <div class="row">
+                        <div class="col-sm">
+                        <div class="card" style="width: 18rem;">
+                        <img src=${jsondata[i].flag} onclick="display(${jsondata[i].latlng[0]},${jsondata[i].latlng[1]})" class="card-img-top" alt="..." >
+                        <div class="card-body">
+                        <h5 class="card-title">${jsondata[i].name}</h5>
+                        </div>
+                        </div>
+                        </div>
+                        </div>`)
+
+                }
+            })
+            function display(lat,lon){
+  var url = new URL(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=56e018b07770c765cb1ac9f214d8a3a0`);
+  
+  
+var new_url = url.toString();
+  fetch(url).then(
+    function(data){
+      return data.json();
+    }
+  ).then(
+    function(json){
+      jsondata =json;
+      alert("Temprature: "+jsondata.main.temp+" F "+"\n Clouds: "+ 
+          	jsondata.weather[0].description);
+    }
+  )
+
+}
+
+
+    </script>
+</body>
+
+</html>
